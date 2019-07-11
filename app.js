@@ -48,7 +48,6 @@ function displayWeather() {
   locationElement.innerHTML = `${weather.city}, ${weather.country}`;
 }
 
-
 // get weather
 function getWeather(latitude, longitude) {
   let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
@@ -78,10 +77,20 @@ tempElement.addEventListener("click", function() {
   if (weather.temperature.value === undefined) return;
   if (weather.temperature.unit == "celsius") {
     let far = Math.floor(celsiusToFar(weather.temperature.value));
+    let farMax = Math.floor(celsiusToFar(weather.temperature.temp_max));
+    let farMin = Math.floor(celsiusToFar(weather.temperature.temp_min));
     tempElement.innerHTML = `${far}°<span>F</span>`;
+    maxTemp.innerHTML = `<span>Maximum</span> ${farMax}°<span>C</span>`;
+    minTemp.innerHTML = `<span>Minimum</span> ${farMin}°<span>C</span>`;
     weather.temperature.unit = "fahrenheit";
   } else {
     tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+    maxTemp.innerHTML = `<span>Maximum</span> ${
+      weather.temperature.temp_max
+    }°<span>C</span>`;
+    minTemp.innerHTML = `<span>Minimum</span> ${
+      weather.temperature.temp_min
+    }°<span>C</span>`;
     weather.temperature.unit = "celsius";
   }
 });

@@ -57,3 +57,17 @@ function getWeather(latitude, longitude) {
       displayWeather();
     });
 }
+function celsiusToFar(temp) {
+  return temp * 1.8 + 32;
+}
+tempElement.addEventListener("click", function() {
+  if (weather.temperature.value === undefined) return;
+  if (weather.temperature.unit == "celsius") {
+    let far = Math.floor(celsiusToFar(weather.temperature.value));
+    tempElement.innerHTML = `${far}°<span>F</span>`;
+    weather.temperature.unit = "fahrenheit";
+  } else {
+    tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+    weather.temperature.unit = "celsius";
+  }
+});

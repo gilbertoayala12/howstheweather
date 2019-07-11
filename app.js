@@ -4,13 +4,17 @@ const iconElement = document.querySelector(".weather-icon");
 const tempElement = document.querySelector(".temperature-value p");
 const descElement = document.querySelector(".temperature-description p");
 const locationElement = document.querySelector(".location p");
+const maxTemp = document.querySelector(".temperature-max");
+const minTemp = document.querySelector(".temperature-min");
 
 const KELVIN = 273;
 const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
 const weather = {
   temperature: {
     value: 18,
-    unit: "celsius"
+    unit: "celsius",
+    temp_max: 0,
+    temp_min: 0
   },
   description: "few clouds",
   iconId: "01d",
@@ -34,13 +38,21 @@ function showError(error) {
 function displayWeather() {
   iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;
   tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
+  maxTemp.innerHTML = `<span>Maximum</span> ${
+    weather.temperature.temp_max
+  }°<span>C</span>`;
+  minTemp.innerHTML = `<span>Minimum</span> ${
+    weather.temperature.temp_min
+  }°<span>C</span>`;
   descElement.innerHTML = weather.description;
   locationElement.innerHTML = `${weather.city}, ${weather.country}`;
 }
+
+
 // get weather
 function getWeather(latitude, longitude) {
   let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
-  //console.log(api);
+  console.log(api);
   fetch(api)
     .then(function(response) {
       let data = response.json();
@@ -52,6 +64,8 @@ function getWeather(latitude, longitude) {
       weather.iconId = data.weather[0].icon;
       weather.city = data.name;
       weather.country = data.sys.country;
+      weather.temperature.temp_max = Math.floor(data.main.temp_max - KELVIN);
+      weather.temperature.temp_min = Math.floor(data.main.temp_min - KELVIN);
     })
     .then(function() {
       displayWeather();

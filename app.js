@@ -14,7 +14,8 @@ const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
  * every const up there has to be an array with the spread thingy 
  * within the display weather find a way to get the 3 day forecast a the same time
  * change every innerHTML for a node struct with append shizzle
- * call the api and structure it for a 3 day forecast and thats it 🤓
+ * call the api and structure it for a 3 day forecast and thats it 
+ * maybe just maybe when everything is done add a little man at the bottom?
  */
 const weather = {
   temperature: {

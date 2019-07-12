@@ -1,5 +1,5 @@
 //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apikey}
-const iconElement = [...document.querySelectorAll(".weather-icon")];
+const iconElement = document.querySelector(".weather-icon");
 const tempElement = document.querySelector(".temperature-value p");
 const descElement = document.querySelector(".temperature-description p");
 const locationElement = document.querySelector(".location p");
@@ -11,6 +11,7 @@ const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
 /**
  * TODO
  * change struct of the weather object so i can call 3 day forecast
+ * every const up there has to be an array with the spread thingy 
  * within the display weather find a way to get the 3 day forecast a the same time
  * change every innerHTML for a node struct with append shizzle
  * call the api and structure it for a 3 day forecast and thats it 🤓

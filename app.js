@@ -1,12 +1,11 @@
 //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apikey}
-const notificationElement = document.querySelector(".notification");
 const iconElement = document.querySelector(".weather-icon");
 const tempElement = document.querySelector(".temperature-value p");
 const descElement = document.querySelector(".temperature-description p");
 const locationElement = document.querySelector(".location p");
 const maxTemp = document.querySelector(".temperature-max");
 const minTemp = document.querySelector(".temperature-min");
-
+const notificationElement = document.querySelectorAll(".notification");
 const KELVIN = 273;
 const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
 const weather = {
@@ -30,10 +29,13 @@ function setPosition(position) {
   let longitude = position.coords.longitude;
   getWeather(latitude, longitude);
 }
+
 // shows error when geolocations is denied
 function showError(error) {
-  notificationElement.style.display = "block";
-  notificationElement.innerHTML = `<p>${error.message}😢</p>`;
+  for (var i = 0; i < notificationElement.length; i++) {
+    notificationElement[i].style.display = "block";
+    notificationElement[i].innerHTML = `<p>${error.message}😢</p>`;
+  }
 }
 function displayWeather() {
   iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;

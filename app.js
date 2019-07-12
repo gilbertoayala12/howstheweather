@@ -1,13 +1,20 @@
 //api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apikey}
-const iconElement = document.querySelector(".weather-icon");
+const iconElement = [...document.querySelectorAll(".weather-icon")];
 const tempElement = document.querySelector(".temperature-value p");
 const descElement = document.querySelector(".temperature-description p");
 const locationElement = document.querySelector(".location p");
 const maxTemp = document.querySelector(".temperature-max");
 const minTemp = document.querySelector(".temperature-min");
-const notificationElement = document.querySelectorAll(".notification");
+const notificationElement = [...document.querySelectorAll(".notification")];
 const KELVIN = 273;
 const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
+/**
+ * TODO
+ * change struct of the weather object so i can call 3 day forecast
+ * within the display weather find a way to get the 3 day forecast a the same time
+ * change every innerHTML for a node struct with append shizzle
+ * call the api and structure it for a 3 day forecast and thats it 🤓
+ */
 const weather = {
   temperature: {
     value: 18,
@@ -33,11 +40,15 @@ function setPosition(position) {
 // shows error when geolocations is denied
 function showError(error) {
   for (var i = 0; i < notificationElement.length; i++) {
+    var nodo = document.createElement("p");
+    nodo.innerText = `${error.message}😢`;
+    notificationElement[i].appendChild(nodo);
     notificationElement[i].style.display = "block";
-    notificationElement[i].innerHTML = `<p>${error.message}😢</p>`;
   }
 }
 function displayWeather() {
+  var nodoP = document.createElement("p");
+  var nodoImg = document.createElement("img");
   iconElement.innerHTML = `<img src="icons/${weather.iconId}.png"/>`;
   tempElement.innerHTML = `${weather.temperature.value}°<span>C</span>`;
   maxTemp.innerHTML = `<span>Maximum</span> ${

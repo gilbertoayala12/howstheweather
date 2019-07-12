@@ -62,7 +62,9 @@ body {
   background-color: #f8d7da;
   display: none;
 }
-
+.error {
+  display: block;
+}
 .notification p {
   color: #721c24;
   font-size: 1.2em;

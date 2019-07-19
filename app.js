@@ -82,58 +82,25 @@ function showError(error) {
 function displayWeather() {
   var nodoP = document.createElement("p");
   var nodoImg = document.createElement("img");
-  
-  // day one
-  iconElement[0].innerHTML = `<img src="icons/${refArray[0][1].iconId}.png"/>`;
-  tempElement[0].innerHTML = `${
-    weather.dayOne.temperature.value
-  }°<span>C</span>`;
-  maxTemp[0].innerHTML = `<span>Maximum</span> ${
-    weather.dayOne.temperature.temp_max
-  }°<span>C</span>`;
-  minTemp[0].innerHTML = `<span>Minimum</span> ${
-    weather.dayOne.temperature.temp_min
-  }°<span>C</span>`;
-  descElement[0].innerHTML = weather.dayOne.description;
-  locationElement[0].innerHTML = `${weather.dayOne.city}, ${
-    weather.dayOne.country
-  }`;
-
-  // Day 2
-  iconElement[1].innerHTML = `<img src="icons/${weather.dayTwo.iconId}.png"/>`;
-  tempElement[1].innerHTML = `${
-    weather.dayTwo.temperature.value
-  }°<span>C</span>`;
-  maxTemp[1].innerHTML = `<span>Maximum</span> ${
-    weather.dayTwo.temperature.temp_max
-  }°<span>C</span>`;
-  minTemp[1].innerHTML = `<span>Minimum</span> ${
-    weather.dayTwo.temperature.temp_min
-  }°<span>C</span>`;
-  descElement[1].innerHTML = weather.dayTwo.description;
-  locationElement[1].innerHTML = `${weather.dayTwo.city}, ${
-    weather.dayTwo.country
-  }`;
-
-  // day 3
-  iconElement[2].innerHTML = `<img src="icons/${
-    weather.dayThree.iconId
-  }.png"/>`;
-  tempElement[2].innerHTML = `${
-    weather.dayThree.temperature.value
-  }°<span>C</span>`;
-  maxTemp[2].innerHTML = `<span>Maximum</span> ${
-    weather.dayThree.temperature.temp_max
-  }°<span>C</span>`;
-  minTemp[2].innerHTML = `<span>Minimum</span> ${
-    weather.dayThree.temperature.temp_min
-  }°<span>C</span>`;
-  descElement[2].innerHTML = weather.dayThree.description;
-  locationElement[2].innerHTML = `${weather.dayThree.city}, ${
-    weather.dayThree.country
-  }`;
+  for (var i = 0; i < refArray.length; i++) {
+    iconElement[i].innerHTML = `<img src="icons/${
+      refArray[i][1].iconId
+    }.png"/>`;
+    tempElement[i].innerHTML = `${
+      refArray[i][1].temperature.value
+    }°<span>C</span>`;
+    maxTemp[i].innerHTML = `<span>Maximum</span> ${
+      refArray[i][1].temperature.temp_max
+    }°<span>C</span>`;
+    minTemp[i].innerHTML = `<span>Minimum</span> ${
+      refArray[i][1].temperature.temp_min
+    }°<span>C</span>`;
+    descElement[i].innerHTML = refArray[i][1].description;
+    locationElement[i].innerHTML = `${refArray[i][1].city}, ${
+      refArray[i][1].country
+    }`;
+  }
 }
-
 // get weather
 function getWeather(latitude, longitude) {
   let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
@@ -145,6 +112,7 @@ function getWeather(latitude, longitude) {
       return data;
     })
     .then(function(data) {
+      // calls a different api hence the "hardcode"
       refArray[0][1].temperature.value = Math.floor(data.main.temp - KELVIN);
       refArray[0][1].description = data.weather[0].description;
       refArray[0][1].iconId = data.weather[0].icon;

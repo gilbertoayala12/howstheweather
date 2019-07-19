@@ -1,4 +1,8 @@
 @media only screen and (max-width: 900px) {
+  body {
+    background-color: #293251;
+    
+  }
   .row {
     display: block;
   }
@@ -15,6 +19,10 @@
   }
 }
 @media only screen and (min-width: 992px) {
+  body {
+    background-color: #293251;
+    padding: 20px;
+  }
   .row {
     display: flex;
   }
@@ -34,9 +42,7 @@
   font-family: "Rimouski";
 }
 
-body {
-  background-color: #293251;
-}
+
 .subtitle {
   text-align: center;
   width: 100%;

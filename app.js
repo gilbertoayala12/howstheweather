@@ -8,6 +8,7 @@ const locationElement = [...document.querySelectorAll(".location p")];
 const maxTemp = [...document.querySelectorAll(".temperature-max")];
 const minTemp = [...document.querySelectorAll(".temperature-min")];
 const notificationElement = [...document.querySelectorAll(".notification")];
+const subtitle = [...document.querySelectorAll(".subtitle")];
 const KELVIN = 273;
 const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
 
@@ -17,7 +18,7 @@ const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
  * call the api and structure it for a 3 day forecast and thats it ✅
  * every const up there has to be an array with the spread thingy✅
  * within the display weather find a way to get the 3 day forecast a the same time✅
- * change every innerHTML for a node struct with append shizzle
+ * change every innerHTML for a node struct with append shizzle 
  *
  * maybe just maybe when everything is done add a little man at the bottom?
  */
@@ -69,6 +70,24 @@ function setPosition(position) {
   let longitude = position.coords.longitude;
   getWeather(latitude, longitude);
 }
+function setDate() {
+  let today = new Date();
+  let tomorrow = new Date();
+  let after = new Date();
+  today.setDate(today.getDate(Date.now()));
+  tomorrow.setDate(today.getDate() + 1);
+  after.setDate(today.getDate() + 2);
+  const dates = [
+    today.toLocaleDateString(),
+    tomorrow.toLocaleDateString(),
+    after.toLocaleDateString()
+  ];
+  for (let i = 0; i < dates.length; i++) {
+    subtitle[i].innerHTML = dates[i];
+  }
+
+  //console.log(subtitle);
+}
 
 // shows error when geolocations is denied
 function showError(error) {
@@ -82,7 +101,7 @@ function showError(error) {
 function displayWeather() {
   var nodoP = document.createElement("p");
   var nodoImg = document.createElement("img");
-  for (var i = 0; i < refArray.length; i++) {
+  for (let i = 0; i < refArray.length; i++) {
     iconElement[i].innerHTML = `<img src="icons/${
       refArray[i][1].iconId
     }.png"/>`;
@@ -105,7 +124,7 @@ function displayWeather() {
 function getWeather(latitude, longitude) {
   let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}`;
   let api2 = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${latitude}&lon=${longitude}&cnt=3&appid=${key}`;
-  console.log(api2);
+  //console.log(api2);
   fetch(api)
     .then(function(response) {
       let data = response.json();
@@ -132,7 +151,7 @@ function getWeather(latitude, longitude) {
           return data;
         })
         .then(function(data) {
-          for (var i = 1; i < refArray.length; i++) {
+          for (let i = 1; i < refArray.length; i++) {
             refArray[i][1].temperature.value = Math.floor(
               data.list[i].temp.day - KELVIN
             );
@@ -149,6 +168,7 @@ function getWeather(latitude, longitude) {
           }
         })
         .then(function() {
+          setDate();
           displayWeather();
         });
     });
@@ -156,33 +176,37 @@ function getWeather(latitude, longitude) {
 function celsiusToFar(temp) {
   return temp * 1.8 + 32;
 }
-// // wait
-// tempElement.forEach(function(el, index) {
-//   el.addEventListener("click", function() {
-//     if (weather.dayOne.temperature.value === undefined) return;
-//     if (weather.dayOne.temperature.unit == "celsius") {
-//       let far = Math.floor(celsiusToFar(weather.dayOne.temperature.value));
-//       let farMax = Math.floor(
-//         celsiusToFar(weather.dayOne.temperature.temp_max)
-//       );
-//       let farMin = Math.floor(
-//         celsiusToFar(weather.dayOne.temperature.temp_min)
-//       );
-//       tempElement[index].innerHTML = `${far}°<span>F</span>`;
-//       maxTemp[index].innerHTML = `<span>Maximum</span> ${farMax}°<span>C</span>`;
-//       minTemp[index].innerHTML = `<span>Minimum</span> ${farMin}°<span>C</span>`;
-//       weather.dayOne.temperature.unit = "fahrenheit";
-//     } else {
-//       tempElement[index].innerHTML = `${
-//         weather.dayOne.temperature.value
-//       }°<span>C</span>`;
-//       maxTemp[index].innerHTML = `<span>Maximum</span> ${
-//         weather.dayOne.temperature.temp_max
-//       }°<span>C</span>`;
-//       minTemp[index].innerHTML = `<span>Minimum</span> ${
-//         weather.dayOne.temperature.temp_min
-//       }°<span>C</span>`;
-//       weather.dayOne.temperature.unit = "celsius";
-//     }
-//   });
-// });
+// wait
+tempElement.forEach(function(el, index) {
+  el.addEventListener("click", function() {
+    if (refArray[index][1].temperature.value === undefined) return;
+    if (refArray[index][1].temperature.unit == "celsius") {
+      let far = Math.floor(celsiusToFar(refArray[index][1].temperature.value));
+      let farMax = Math.floor(
+        celsiusToFar(refArray[index][1].temperature.temp_max)
+      );
+      let farMin = Math.floor(
+        celsiusToFar(refArray[index][1].temperature.temp_min)
+      );
+      tempElement[index].innerHTML = `${far}°<span>F</span>`;
+      maxTemp[
+        index
+      ].innerHTML = `<span>Maximum</span> ${farMax}°<span>C</span>`;
+      minTemp[
+        index
+      ].innerHTML = `<span>Minimum</span> ${farMin}°<span>C</span>`;
+      refArray[index][1].temperature.unit = "fahrenheit";
+    } else {
+      tempElement[index].innerHTML = `${
+        refArray[index][1].temperature.value
+      }°<span>C</span>`;
+      maxTemp[index].innerHTML = `<span>Maximum</span> ${
+        refArray[index][1].temperature.temp_max
+      }°<span>C</span>`;
+      minTemp[index].innerHTML = `<span>Minimum</span> ${
+        refArray[index][1].temperature.temp_min
+      }°<span>C</span>`;
+      refArray[index][1].temperature.unit = "celsius";
+    }
+  });
+});

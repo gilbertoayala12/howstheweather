@@ -18,7 +18,7 @@ const key = "cb2c28bb63fa2d50f3b4bc5fe46d0add";
  * call the api and structure it for a 3 day forecast and thats it ✅
  * every const up there has to be an array with the spread thingy✅
  * within the display weather find a way to get the 3 day forecast a the same time✅
- * change every innerHTML for a node struct with append shizzle 
+ * change every innerHTML for a node struct with append shizzle
  *
  * maybe just maybe when everything is done add a little man at the bottom?
  */
@@ -137,12 +137,6 @@ function getWeather(latitude, longitude) {
       refArray[0][1].iconId = data.weather[0].icon;
       refArray[0][1].city = data.name;
       refArray[0][1].country = data.sys.country;
-      refArray[0][1].temperature.temp_max = Math.floor(
-        data.main.temp_max - KELVIN
-      );
-      refArray[0][1].temperature.temp_min = Math.floor(
-        data.main.temp_min - KELVIN
-      );
     })
     .then(function() {
       fetch(api2)
@@ -151,20 +145,29 @@ function getWeather(latitude, longitude) {
           return data;
         })
         .then(function(data) {
-          for (let i = 1; i < refArray.length; i++) {
-            refArray[i][1].temperature.value = Math.floor(
-              data.list[i].temp.day - KELVIN
-            );
-            refArray[i][1].description = data.list[i].weather[0].description;
-            refArray[i][1].iconId = data.list[i].weather[0].icon;
-            refArray[i][1].city = data.city.name;
-            refArray[i][1].country = data.city.country;
-            refArray[i][1].temperature.temp_max = Math.floor(
-              data.list[i].temp.max - KELVIN
-            );
-            refArray[i][1].temperature.temp_min = Math.floor(
-              data.list[i].temp.min - KELVIN
-            );
+          for (let i = 0; i < refArray.length; i++) {
+            if (i != 0) {
+              refArray[i][1].temperature.value = Math.floor(
+                data.list[i].temp.day - KELVIN
+              );
+              refArray[i][1].description = data.list[i].weather[0].description;
+              refArray[i][1].iconId = data.list[i].weather[0].icon;
+              refArray[i][1].city = data.city.name;
+              refArray[i][1].country = data.city.country;
+              refArray[i][1].temperature.temp_max = Math.floor(
+                data.list[i].temp.max - KELVIN
+              );
+              refArray[i][1].temperature.temp_min = Math.floor(
+                data.list[i].temp.min - KELVIN
+              );
+            } else {
+              refArray[i][1].temperature.temp_max = Math.floor(
+                data.list[i].temp.max - KELVIN
+              );
+              refArray[i][1].temperature.temp_min = Math.floor(
+                data.list[i].temp.min - KELVIN
+              );
+            }
           }
         })
         .then(function() {
